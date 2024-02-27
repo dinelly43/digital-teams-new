@@ -1,4 +1,4 @@
-let teams = [];
+let teams = JSON.parse(localStorage.getItem("lista")) || [];
 
 criarBtn.onclick = () => {
   // console.log("clicou");
@@ -32,7 +32,7 @@ formCriar.onsubmit = () => {
       capacity: capacidade.value,
       members: [],
     });
-  
+    localStorage.setItem("lista", JSON.stringify(teams));
     adicionarCards();
     overlay.classList.remove("show");
     formCriar.classList.remove("show");
@@ -41,9 +41,15 @@ formCriar.onsubmit = () => {
 
 formParticipante.onsubmit = () => {
   event.preventDefault();
-  teams[Number(teamID.value)].members.push(nomeParticipante.value);
-  alert("Participante inserido com sucesso!");
-  formParticipante.reset();
+  if(teams[Number(teamID.value)].members.length == teams[Number(teamID.value)].capacity)
+      {
+        alert('Capacidade máxima atingida')
+    }else{
+      teams[Number(teamID.value)].members.push(nomeParticipante.value);
+      localStorage.setItem("lista", JSON.stringify(teams));
+      alert("Participante inserido com sucesso!");
+      formParticipante.reset();
+      adicionarCards();}
 }
 
 function adicionarCards(){
@@ -55,8 +61,8 @@ function adicionarCards(){
   for (let i = 0; i < teams.length; i++) {
     listTeams.innerHTML += `
   <li>
-  <h4> ${teams[i].name}<box-icon name="show"></box-icon></h4>
-  <h1>0 <span>/ ${teams[i].capacity}</span></h1>
+  <h4> ${teams[i].name}<box-icon name="show" onClick="mostrarparticipantes(${i})"></box-icon></h4>
+  <h1> ${teams[i].members.length}<span>/ ${teams[i].capacity}</span></h1>
   <div class="actions">
     <button onClick="mostrarFormParticipante(${i})">adicionar</button>
     <button onClick="removerCard(${i})"><box-icon name="trash"></box-icon></button>
@@ -66,6 +72,8 @@ function adicionarCards(){
   }
 }
 
+adicionarCards();
+
 function removerCard(indice){
   let listaAuxiliar = [];
   for(let i = 0; i < teams.length; i++){
@@ -74,6 +82,7 @@ function removerCard(indice){
     }
   }
   teams = listaAuxiliar;
+  localStorage.setItem("lista", JSON.stringify(teams));
   adicionarCards();
 }
 
@@ -91,4 +100,8 @@ function mostrarFormParticipante(indice){
   overlay.classList.add("show");
   formParticipante.classList.add("show");
   teamID.value = indice;
+}
+
+function mostrarparticipantes(indice){
+  alert(teams[indice].members)
 }
