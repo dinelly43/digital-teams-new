@@ -6,6 +6,10 @@ criarBtn.onclick = () => {
   formCriar.classList.add("show");
 };
 
+// function busca(indice){
+//   let index = text.lastIndexOf("card")
+// }
+
 fecharBtn.onclick = () => {
   overlay.classList.remove("show");
   formCriar.classList.remove("show");
@@ -47,7 +51,7 @@ formParticipante.onsubmit = () => {
     }else{
       teams[Number(teamID.value)].members.push(nomeParticipante.value);
       localStorage.setItem("lista", JSON.stringify(teams));
-      alert("Participante inserido com sucesso!");
+      // alert("Participante inserido com sucesso!");
       formParticipante.reset();
       adicionarCards();}
 }
