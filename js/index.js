@@ -6,10 +6,6 @@ criarBtn.onclick = () => {
   formCriar.classList.add("show");
 };
 
-// function busca(indice){
-//   let index = text.lastIndexOf("card")
-// }
-
 fecharBtn.onclick = () => {
   overlay.classList.remove("show");
   formCriar.classList.remove("show");
@@ -109,3 +105,20 @@ function mostrarFormParticipante(indice){
 function mostrarparticipantes(indice){
   alert(teams[indice].members)
 }
+
+function searchTeam(){
+  let lista = document.querySelectorAll('#teams ul li');
+  if(pesquisa.value.length >= 3){
+    for(let i = 0; i < lista.length; i++){
+        if(lista[i].children[0].innerText.toString().toLowerCase().includes(pesquisa.value)){
+            lista[i].classList.remove("none")
+        }else{
+              lista[i].classList.add("none")
+        }
+    }
+  }else{
+    for(let i = 0; i < lista.length; i++){
+        lista[i].classList.remove("none");
+    }
+  }
+};
